@@ -1,0 +1,5 @@
+data/*
+!data/logs completos
+data/logs completos/*
+!data/logs completos/Messages_Traffic.zip
+códigos lixo/
