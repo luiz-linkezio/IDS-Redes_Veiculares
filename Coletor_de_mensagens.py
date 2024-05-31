@@ -5,7 +5,7 @@ import csv
 
 # Abra o arquivo CSV para escrita
 with open('mensagens_can.csv', 'w', newline='') as csvfile:
-    fieldnames = ['Timestamp', 'ID', 'Data']
+    fieldnames = ['Timestamp', 'Arb ID', 'Data']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     # Escreva os cabeçalhos do CSV
@@ -28,10 +28,15 @@ with open('mensagens_can.csv', 'w', newline='') as csvfile:
 
                 message = bus.recv()
 
-                messages.append(message)
+                #messages.append(message)
+                
+                data_list = list()
+                for byte in message.data:
+                    data_list.append(byte)
 
                 # Escreva a mensagem no arquivo CSV
-                writer.writerow({'Timestamp': message.timestamp, 'ID': message.arbitration_id, 'Data': message.data})
+                writer.writerow({ "Timestamp":message.timestamp, "Arb ID":message.arbitration_id, "Data":data_list})
+                print(message)
 
             except Exception as e:
                 print('erro', e)
