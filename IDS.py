@@ -1,6 +1,6 @@
 from joblib import load
 from keras.models import load_model
-from sklearn.svm import OneClassSVM
+#from sklearn.svm import OneClassSVM
 import can
 import subprocess
 import numpy as np
@@ -46,7 +46,7 @@ def df_construct(messages, timestamp, scaler=None):
     else:
         return df_message
 
-def predict(message, timestamp, model, model_name, scaler=None, window_size=None):
+def predict(message, timestamp, model, model_name, scaler=None, window_size=None, threshold=None):
 
     df_message = df_construct(message, timestamp, scaler)
 
@@ -65,9 +65,9 @@ def predict(message, timestamp, model, model_name, scaler=None, window_size=None
     elif model_name == "LSTM":
         predict = model.predict(message_window)
 
-        if predict > 0.5:
+        if predict > threshold:
             print(f"Janela BENIGNA de tamanho: {window_size}")
-        elif predict < 0.5:
+        elif predict < threshold:
             print(f"Janela MALICIOSA de tamanho: {window_size}")
 
 
@@ -76,6 +76,7 @@ ocsvm_model = load("/home/live/Documents/PET Luiz e Karen - Dupla 7/model_ocsvm.
 lstm_model = load_model("/home/live/Documents/PET Luiz e Karen - Dupla 7/xxxxxxxxxxxx")
 lstm_windows_size = 150
 lstm_scaler = load("/home/live/Documents/PET Luiz e Karen - Dupla 7/xxxxxxxxxxxxxx")
+lstm_theshold = 0
 
 with can.Bus(interface='socketcan', channel='can0', bitrate=500000) as bus:
 
@@ -93,7 +94,7 @@ with can.Bus(interface='socketcan', channel='can0', bitrate=500000) as bus:
             lstm_messages_list.append(message)
             count += 1
             if count == lstm_windows_size:
-                predict(lstm_messages_list, timestamp, lstm_model, "LSTM", lstm_scaler, lstm_windows_size)
+                predict(lstm_messages_list, timestamp, lstm_model, "LSTM", lstm_scaler, lstm_windows_size, lstm_theshold)
 
             timestamp = message.timestamp
 
