@@ -71,11 +71,11 @@ def predict(message, timestamp, model, model_name, scaler=None, window_size=None
             print(f"Janela MALICIOSA de tamanho: {window_size}")
 
 
-ocsvm_model = load("/home/live/Documents/PET Luiz e Karen - Dupla 7/model_ocsvm.joblib")
+#ocsvm_model = load("/home/live/Documents/PET Luiz e Karen - Dupla 7/model_ocsvm.joblib")
 
-lstm_model = load_model("/home/live/Documents/PET Luiz e Karen - Dupla 7/xxxxxxxxxxxx")
+lstm_model = load_model(" ")
 lstm_windows_size = 150
-lstm_scaler = load("/home/live/Documents/PET Luiz e Karen - Dupla 7/xxxxxxxxxxxxxx")
+lstm_scaler = load(" ")
 lstm_theshold = 0
 
 with can.Bus(interface='socketcan', channel='can0', bitrate=500000) as bus:
