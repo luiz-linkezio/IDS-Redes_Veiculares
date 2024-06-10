@@ -3,6 +3,7 @@ modeln_xxxx_ns_xc_wx_ex_px_bsx
 modeln_xxxx
 
 model: é um modelo
+old: modelo velho, em desuso
 n: número da versão
 xxxx = nome do modelo
 s = supervisionado
