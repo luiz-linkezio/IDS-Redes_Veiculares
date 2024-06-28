@@ -1,2 +1,5 @@
 CAN/data/*
 !CAN/data/dados.zip
+
+Ethernet/data/*
+!Ethernet/data/captures.zip
