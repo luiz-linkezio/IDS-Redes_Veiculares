@@ -1,3 +1,5 @@
+myenv
+
 CAN/data/*
 !CAN/data/dados.zip
 
