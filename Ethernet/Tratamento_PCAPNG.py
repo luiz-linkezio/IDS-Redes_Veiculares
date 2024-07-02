@@ -19,7 +19,7 @@ def limpar_ansi(texto):
     return re.sub(r'\x1B\[[0-?]*[ -/]*[@-~]', '', texto)
 
 # Substitua 'seu_arquivo.pcapng' pelo caminho do seu arquivo PCAPNG, só fazer com cada arquivo
-captura = pyshark.FileCapture('Ethernet\data\Ataques\Transmit Timestamp Jitter 2024_6_26-18h_53m_22s\TSNBox_192.168.41.151_4455.pcapng')
+captura = pyshark.FileCapture('Ethernet\data\Ataques\Out of Sequence 2024_7_1-19h_07m_28s\TSNBox_192.168.41.151_4455.pcapng')
 
 # Lista para armazenar os dados dos pacotes
 pacote_dados = []

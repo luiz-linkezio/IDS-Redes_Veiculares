@@ -5,3 +5,5 @@ CAN/data/*
 
 Ethernet/data/*
 !Ethernet/data/captures.zip
+
+Ethernet/T.ipynb
