@@ -1,0 +1,17 @@
+modeln_xxxx_s_xc_wx_ex_px_bsx
+modeln_xxxx_ns_xc_wx_ex_px_bsx
+modeln_xxxx
+
+model: é um modelo
+old: modelo velho, em desuso
+n: número da versão
+xxxx = nome do modelo
+s = supervisionado
+sn = não supervisionado
+mc = multiclassificação
+bc = classificação binária
+wx = Janela deslizante e seu tamanho
+ex = épocas e sua quantidade
+px = paciência e sua quantidade
+bsx = batchs e sua quantidade
+t = Treshold
