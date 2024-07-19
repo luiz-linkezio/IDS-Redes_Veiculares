@@ -15,3 +15,14 @@ O diretório:
  - `CAN/Gerador_de_mensagens_aleatorias.py` é um arquivo python responsável por gerar mensagens CAN aleatórias.
  - `CAN/Tratamento_CSV_Python_CAN.py` é um arquivo python responsável por tratar mensagens CAN de um arquivo CSV, basicamente faz uma limpeza e padronização dos dados.
  - `CAN/Scripts para o Barramento` é uma pasta que contém scripts para coletar(`Coletor_de_mensagens.py`) mensagens CAN, atacar(`Ataques.py`) um barramento CAN e fazer o deploy do IDS(`IDS.py`) em um barramento físico CAN reais(ainda que em ambiente controlado).
+ - `docs` é uma pasta que contém os relatórios do projeto, incluindo os resultados.
+
+## Resultados 
+
+### CAN
+
+[Resultados CAN](docs/Resultados_CAN.pdf)
+
+### Ethernet 
+
+[Resultados CAN](docs/Resultados_Ethernet.pdf)
