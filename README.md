@@ -25,4 +25,4 @@ O diretório:
 
 ### Ethernet 
 
-[Resultados CAN](docs/Resultados_Ethernet.pdf)
+[Resultados Ethernet](docs/Resultados_Ethernet.pdf)
